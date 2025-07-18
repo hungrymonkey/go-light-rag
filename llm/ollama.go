@@ -100,6 +100,13 @@ func (o Ollama) chatRequest(messages []api.Message) api.ChatRequest {
 	if o.params.MinP != nil {
 		opts["min_p"] = *o.params.MinP
 	}
+	if o.params.MaxTokens != nil {
+		opts["num_predict"] = *o.params.MaxTokens
+	}
+	maxinput := 8192
+	if o.params.MaxTokens != nil {
+		opts["num_ctx"] = maxinput
+	}
 	if o.params.IncludeReasoning != nil {
 		req.Think = *o.params.IncludeReasoning
 	}
