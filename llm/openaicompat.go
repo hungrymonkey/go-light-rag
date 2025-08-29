@@ -16,7 +16,7 @@ import (
 // OpenAICompat provides an implementation of the LLM interface for interacting with OpenAI-compatible API services.
 // It manages connections to any OpenAI-compatible server instance and handles chat completions.
 type OpenAICompat struct {
-	BaseUrl string
+	baseUrl string
 	model   string
 	params  Parameters
 
@@ -28,7 +28,7 @@ type OpenAICompat struct {
 // The host parameter should be a valid URL pointing to an OpenAI-compatible API server.
 func NewOpenAICompat(host, model string, params Parameters, logger *slog.Logger) OpenAICompat {
 	return OpenAICompat{
-		BaseUrl: strings.TrimSuffix(host, "/"),
+		baseUrl: strings.TrimSuffix(host, "/"),
 		model:   model,
 		params:  params,
 		client:  &http.Client{Timeout: 110 * time.Second},
@@ -36,13 +36,13 @@ func NewOpenAICompat(host, model string, params Parameters, logger *slog.Logger)
 	}
 }
 
-// ChatMessage represents a single message in the conversation
+// ChatMessage represents a single message in the conversation.
 type ChatMessage struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
 }
 
-// ChatCompletionRequest represents the request payload for chat completions
+// ChatCompletionRequest represents the request payload for chat completions.
 type ChatCompletionRequest struct {
 	Model            string         `json:"model"`
 	Messages         []ChatMessage  `json:"messages"`
@@ -58,7 +58,7 @@ type ChatCompletionRequest struct {
 	MaxTokens        *int           `json:"max_tokens,omitempty"`
 }
 
-// ChatCompletionResponse represents the response from the chat completion API
+// ChatCompletionResponse represents the response from the chat completion API.
 type ChatCompletionResponse struct {
 	Choices []struct {
 		Message ChatMessage `json:"message"`
@@ -142,7 +142,7 @@ func (o OpenAICompat) sendRequest(ctx context.Context, req ChatCompletionRequest
 		return nil, fmt.Errorf("error marshaling request: %w", err)
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, "POST", o.BaseUrl+"/chat/completions", bytes.NewBuffer(jsonData))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseUrl+"/chat/completions", bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
