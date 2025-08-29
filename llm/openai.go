@@ -29,6 +29,20 @@ func NewOpenAI(apiKey, model string, params Parameters, logger *slog.Logger) Ope
 	}
 }
 
+// NewOpenAICompat creates a new OpenAI instance configured for OpenAI-compatible endpoints.
+// Supports custom API keys for different providers.
+func NewOpenAICompat(apiKey, baseURL, model string, params Parameters, logger *slog.Logger) OpenAI {
+	config := goopenai.DefaultConfig(apiKey)
+	config.BaseURL = baseURL
+
+	return OpenAI{
+		model:  model,
+		params: params,
+		client: goopenai.NewClientWithConfig(config),
+		logger: logger.With(slog.String("module", "openai-compat")),
+	}
+}
+
 // Chat sends a chat message to the OpenAI API.
 func (o OpenAI) Chat(messages []string) (string, error) {
 	msgs := make([]goopenai.ChatCompletionMessage, len(messages))

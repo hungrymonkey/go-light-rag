@@ -564,6 +564,8 @@ func buildLLM(cfg llmConfig, logger *slog.Logger) (golightrag.LLM, error) {
 	switch strings.ToLower(cfg.Type) {
 	case "openai":
 		return llm.NewOpenAI(cfg.APIKey, cfg.Model, cfg.Parameters, logger), nil
+	case "openai-compat":
+		return llm.NewOpenAICompat(cfg.APIKey, cfg.Host, cfg.Model, cfg.Parameters, logger), nil
 	case "anthropic":
 		return llm.NewAnthropic(cfg.APIKey, cfg.Model, cfg.MaxTokens, cfg.Parameters), nil
 	case "ollama":
