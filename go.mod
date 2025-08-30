@@ -13,7 +13,7 @@ require (
 	github.com/philippgille/chromem-go v0.7.1-0.20250720180857-4e5d21d5b8ce
 	github.com/redis/go-redis/v9 v9.7.3
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
-	github.com/sashabaranov/go-openai v1.38.0
+	github.com/sashabaranov/go-openai v1.41.1
 	github.com/tiktoken-go/tokenizer v0.6.0
 	go.etcd.io/bbolt v1.4.0
 	golang.org/x/sync v0.16.0

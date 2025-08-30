@@ -78,6 +78,9 @@ func (o OpenAI) chatRequest(messages []goopenai.ChatCompletionMessage) goopenai.
 	req := goopenai.ChatCompletionRequest{
 		Model:    o.model,
 		Messages: messages,
+		ChatTemplateKwargs: map[string]any{
+			"thinking": false,
+		},
 	}
 
 	if o.params.Temperature != nil {
